@@ -30,3 +30,6 @@
 *.exe
 *.out
 *.app
+
+website copy.html
+/.vscode

@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- Global Data -->
+    <title>IoT Terrarium</title>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='icon' href='data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAA
+        ABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAAcAAAAHABznhikwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAA
+        AKISURBVDiNfZJLTBNRFIb/e2cKlEJheJWW8hSQgpiAqAgLwcSERBOjUQMh0SVLE5e6N25M1MSFGxYsiMGFrwWyMSbGYlREKCC
+        BkoI0pNIOLXTK9DHT48Y2oBnv8t7vfCf/OVeAwbkGCI6GBmu3q2LgVLt9qqVC2qo0FflPhMPaEkAZjhsJ8vtdo229JfM5ZuHB+
+        VvHa/Mswr3WnpJ587nWsYOc8E9np9Pc0W5351rMzr6RlmYlFC9KJjTOwIpODzZKvk8B1WWTRuySOL72K5Y6JIhEPEdSYmrS2St
+        07WyoNrvLCkebxL+/WEf3cBPXUgTfTMjSc6O5PrgY2/dshj5kI4TDC/1ENJNm6MwvzUXH5Sp8nfCBc4a8whxwDnx+5k11DzUWF
+        pTlMp6DmmwEWfZUM0bviahY3VMx/XoahZUmKDtJyOt72I8kEd1OgHRwq93M516tB0OrypNBOfJDBABBSN8hYsW6psM96caFK7e
+        R1nW0DABEBCICYwyMMUYgah3ihW/Z+KPFWOqNCABE/CpAEE0iHHU1OHvxktFykIzHmXfBkyeVlgee+/0qD4dniwEqywBEumExA
+        PiWl7AT3EZ0b1cGAK4oauIgIJo4kvH4fwQ/UNvUjOhuOAAAvLq6RwWwkgFsNXb4fWuGAsYYdE2DqsS+AH9+ImMYzQBV9U78XF0
+        2FJTYKrGxuhIL+HzurCAaVR4DmAMAe50Tm2teQ0F+QQFW5mZlZlKXAYBlHoLBbw5RFF8COHl/5C6sUumhwnRa1/Skvk8AApsb0
+        afvPjoBQMwA5eWdW0QTZyKRo8NmkR62WdLSX+lFQLQCwJRXWcrciocQdl0HMHaz61hfQpb7jWLEE1p26L8BSy8HR/A9I4AAAAA
+        ASUVORK5CYII=' type='image/x-png' />
+
+    <!-- Apple Meta Tags -->
+    <meta name='apple-mobile-web-app-capable' content='yes'>
+    <meta name='apple-mobile-web-app-status-bar-style' content='black'>
+    <link rel='apple-touch-startup-image' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAA
+    BHNCSVQICAgIfAhkiAAAAA
+    lwSFlzAAADgAAAA4AB/Pg+8wAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAABqpSURBVHic7Z15dBzFnce/1XNJo2sO6xwdo1uWZMn3
+    CdgQzOErCQSWYANJCEuS3SwQFgI5dklI8rLv8d7CPh67SSB5nIljroCBACEYYsBcvmVbt6zTOmd0azQzXfuHGHuqumeme2Z0jj5/aaqrq0vTv6n6XVVFsE
+    hQLi8oSDEQ97cJodcApBiAAUADKHmHUM+jrzZ1ts52HyOBzHYH5jLbi3KuJMBzACxy1wngFkHufa2h9eEZ7lrU0Mx2B+YqO4qydxOQfQASglTTEOCqYktK
+    Sv3A0Jsz1bdosigAMuwqzC6iRHgVQJyS+gTYUGxOqa13DJ2c5q5FnUUBkKHYmvIigBL/MnNOApbvsCNvRSqoSDHUM87cQwi2lKXq/6+2f2xyJvsaKYsCwL
+    GzMO8yEPof/mW2CjO23lGFJfYkmLMTkL8mDaJHRE/jkH81I6X64bqBwYMz2+PIEGa7AzPB9txc8xa7XdFwTgXxZ/6ftXoN1t9UAkHD6svLd9phyuLVA3r3
+    rtIlSaGesWULtNtzc81btkCrpE/TyYK1AnaVZpWKXu3dAL0aQPYXxR0A3hQgPPpKw9kjknuKc7eKlL7lX1a+NRurvpov+4yzh/vw/uOnmTIK/Pi1hrZf8X
+    V3lGTbIJIfALgawNIvip0EeJuK5Df7m1rfUfs/RoMFKQA7C3N+TAl+iimbXQ6REPp4nN51976a3pHz9xXlvEeBS3yftXoNvvrgasQl6eVboRT7f3UEjo5R
+    /9IBMubNebWzc+yLz2R7Ue69BPSnCGJREJBnhj3CbQdaWiaU/ZfRYcFNAduLcn5ECX6BwC8fAARKyT9PuOI+3Fmalw8AO0ps1f4vHwBKN2cFfvkAQAiWbc
+    vlSy0wCjcCwHUVqYk7C3OeJ6C/RnBzEhR0T6LWu3emp4UFpQTuLMhZA4I/QvnIlg5KbyyypnwsALcCZJXvgiAQXHxbGXSG4F9RSoYRzZ/0YHLM41cq5Jan
+    md+c9GjeBrBFxb9QahhK6a4bGPpUxT0RsaAEoMSa8jiAYv8y+6pUrNhlR8G6NAhaAc7OMYAytyUIwB6ALAOg8xXaqqwo2ZQR8pmEAG6XF+dqB/2LM0SR3g
+    LAztfPKDNhxZftKLk4E3FJevSfHQZl+7M8K9nyWIvT6eHvnQ5mXQuNFrtKlySJXlzhX1a0KQMbdl+QB1ulBYXr0vDe42fgGnGfL6dTL17nf2/xxtAv30fh
+    +nQc298KKjJv0uz/QdAQrLmuECWXZJ4vyywzITktDoeea/CvakvQuDcAeFdxByJgwegA1JOwBtyItuwqyfyM9BITrr53uYwJdwFjsh5ZFeaA1yX1TQZklQ
+    eub0jU4fLvVzIv30fRxgwYkzk9gwgbFD88QhaMAIB4C/w/GhJ0SLTK64FJS+Jw1T1VyF4mG+NBcqYRgqDOQLLmyZv/KZlGbPvhcqSXmGSvE4HAnJvIloHI
+    253TwMIRABDmDeiNwdUbnUGLzbeXI2/lEsm17jonGj/qVvzk/pZhnHq7XVJutiXiyruqkGgN7oPSx/MzMQ3pTIoW804H+EqZ3e7xeG4BEZxk1PM7n71NQZ
+    P9lX9tXGj9VhAILv5WGQRNHZo/7TlfTilw6Ll6JFgNyAjwy/UxPjiJ9357Gp5JL1NutiVi6x2VMCTqAtx5AZ2B/R0SSv2HBLJ9KjJZLhL6l9fr2z8O2aAK
+    5tUIsL0o9zqPx3sMIA+A0odh1LyAL9464UcAgzLZJgLBxltKkLeKHQlEL8X7j5/BcF9gv4xn0ou/P1aDUaeLKVfz8gFAy40AFCTZ9/f2otwHCMjTAO4XKP
+    lwR1H2fz4Qxfc2bwRgR3HOTwjonwGc/3IocNXO4tzvAwAIO2wqGQF8CALBRd8sQ3Ylq8i5Rtw4+MQZiF4qe9/nzzdhoG2EKUtOi1f18gFAp+deA5kaAbYX
+    5m0koD/27ypAHvisKHvvdRUVQTxUypkXArCzKOeXoHhQ7hql9Nc7S+xlfLnoEVU9QxAILrq1DKZs1jroOzuMY/tbJPVbj/ah7uA5pkwXp8Hm28tVvXwAMg
+    JG6BVV6QmEiE9C1ldDvjbuGnp51apV6h4kw5wXgB2F2bdR4EdBqsRT0fusCA0zCXsm1QkAMKUYXnp7OfRGdkg++VYHev1CvxMjbhx6toG9mRBc8u2lMGUa
+    VT/X4/JKivSj+ocAFAW57erMwZ7fqH4Yx5wWgJ1FtvUg5DG+PE76C1tJqHe5f4HMl6qIRGsc1t9YzBZSikN7GyB+4eg5/GIzXKNupkrF5dlBfQHBcPPCSm
+    EEwe3+RYYE3ZTbkeWb24tyvhvWQ79gzgrAzqwsIyA8A85SKVifhu33r5D8SgnIOv+BNFwBAIC8lUtQtIH1BDrbR3Hm3U70NA6i6WPWRLTkJGL5rrywnyfp
+    K0ER/EwaQoCLby3D2usLwEOAh7YV2EokFxQyZwVANGp/SIFC/7LsZRZs2FMCo9mAtf/EXAIFGNeNeyJ8AQCAldfmIy6JHWlOvNGKT59vZnz3RCBYv7tYkj
+    CiBpm+Mo6D0i1ZyCwzoXRzFqq2SwTNKAhC2FnJc1IAduXnpxPQe/zL4pJ12HhL6XkPXf6aNFknjg/XqBveMPQAHwajFiu5RJDJMQ8Gzg4zZaWXZMLKefLU
+    MuYInEaYnGbEii/bz3+u2paLtKJkvtrVOwvzLgvn2XNSAAQDuQNAvH/Zmq8VwsAN++tvLEaCSd7dSykw0h9ZbkXBunSYbYFfrtagQdV2abxBLcN947Llgk
+    Cw6Rsl0OovGAKEABv2FEOj5UYcIt6DMJhTAtDXd9TW23Pkv41Jxh/6l6cWJMO+OlVSX2/UYu2NxTK60RSD3WPyFxRCCFC1PSfg9bLNmVPKWQSMOV0B9ZXK
+    K3OwxC71CienGVF8ERtYosCVvuQWNcwJAXA4jtgdjmOPaDRC/ZkjJ+4ccgwy/ZKLovnIrjSjOEDcnnfShENO9RLZyKFGL2Dp5dkyd6ijv1W+j+acBLlso/
+    OUbM7iBZ+IXnq92ufPqgAMDx9LcziOPwFo6gHybwDiT3z0OVPHkKBD3orAcz0ArLq2AElLpAGXjhOOiPtICGQFLKPEJGeOqqbzlFNSptEJuPgbZUEVy5T0
+    eKQVpbB9nUqAVcWsCAClVHA4jt3s8Qg1AL4FP1Ov9ugppm5mmQkaXfBuag0abLy5VGInD3SMYMzhCnCXcvLXpUn6EOnQDwBUpGj+RBp1XL7LjhQFDqXsSk
+    k4e61aF/GMC4DTeWyl03niY4A8CVDmp00pRXtDC1PfKjMHypFWlIwKfkimwPtPnImov8CURWCrYL/swa7RALWVc/y1VokJmFaUjPLLshTdb82XfDfxE67h
+    Yrm6gZgxAaCUEofj2B2Uko8ArJarM9jvgGuC1dzVmFjVO/NgtrHzdW/TEBoPKY/tB8LGZQgNtI1gfNAdoHZonO2jOPlWG1Omi9Pgom+UyXn8ZLHmJkrqUk
+    DqLQrCjAhAf399stN5Yi9AHgYQcIgackjnw6Bp2Rwa7ZTZxM+dn/65ESP9kU0FtkoL811TCvQ0DQa+IQheD8U/nqqVBIHWXFeIBEuwbHYWrV4DLT89Ehpc
+    YeKYdgFwOI6uEISx4wCuC1XX7ZI6RDQ6dR42sy0R1TtYb5l7wouPnq4Dn36rhvgUPZJSGdcE+lvCszKOv9YCZzs7heRUWVG4IV11WxL9SKRB1x/wTKsAOB
+    wntgDCAYAocpQLGmkSh9rcPACo2JqN1ALWW3auzonT73aqbssfCzcd9bcOBagZmN7GIdS83cGUxSXqpAEohRAuWEwEQdW8NG0C4HAc/wql9A34JXCEIj5B
+    qvmOBnGTBoIIBBtvZj1oAHDklRYMnpP3uimBT/x0dqlzNHlcXnzwVC2fPo51NxYhLlm9VeF1i5gYZpcPUJFK59EgTIsAOJ3HbwfwAiHKNljwYUlfAkHDdm
+    moJzxvXnJaPFZdwzrGvJMiDv4hcIZPyDbTWQF1DbtVRR0/e6EJw72sklu4Ph25y1VN2+cZ6ZuQTmtEVLVnUdQFYGDg2NcpxWPhtK036JGayc6Dzs7w3bnF
+    F2dKYvQDbSM48de2AHcEh3c2UYqgOYP+dNYMoOEDNoPIaDZg9ddUKe0Mct+NTos6NW1EVQCczmNfIoT8IZJ2CyvZ7K7WI31h626EABtvKpEEkU6+0Yo+Lq
+    qnhASL1CKZGAo9RU2OeXDo2QY2jEyADbuLJXkNajh7tJctoKT2pTMd/WraiJoADA6eXEMpeRnBV+WGpGJtNfN5pH8CAwH85UqIT9Fj7Q1sZpUoUnz4ZK3q
+    cLFGp5HY3a7R0Ev4Pv5jgyRzuHRLVtgZRMBURjLv6iaE/l1tO1ERgN7ew1miKO4HEFlgHMDKzeuh07MKUd3BrojatK9OlaR9D54bx5G/NKtqhxBAy2Xwus
+    aCC0DLZ71o+Zz9pfIx/nBo+qRXshZBpOI+te1ELACUUkGr1T4FIC3StgAgMTkJyy9ay5Q1ftTNb8KgmnU3FEnW4J0+0MWv6g2JllvEESz7eHxwEp/8iU0e
+    FQSCTd+UWihq8Li8OLH/LFdKz65p7HhPbVsRC8Dg4MmfA/hSpO34s+2ma5nPVKT4/EV1v1YeQ4IO6/dwuQOU4sOn6zA5rlyT1+rYFyeK8goKpcBHz9RJRo
+    jKK3OwJMA6QqXUvN2OMV73oHjoAUB1ClREAuB0nthKKb0/kjbkKKosRdVGNlzQddqBuvcjmwpslRZJaHd0YAKf7WtU3AbvmaQBvvL6g13oqGHnaGtuYtAY
+    vxL6modw8k2JFdMe78IT4bQXtgB0dn5mpJT+NpI2gnHT3bdDp2eH7M+eb0TXGVV+Dgmrri1AUiprzjUe6kbbMWXKs9vFvnF+XR8ADPeO4/MX2BFLoxOw6Z
+    bSiJJHR/oncOC3pyV+DAryg33t7WF5uMJ+eUaj/qeQ2QEjWmTkZuHa7+xhyrweigO/ORWREGgNGmy8qRSEczEferYeE8OhTTrPBDuk6+K4dX0ixQdP1koU
+    NKUx/kAM947jb4+cwPgg10eCl15raFWt/F24PQyGho6WeL3CcURo8nm9Xrz8+J9w4tBhiF55bbqn/RxGh1kzkJApJ0okGTljzkmMc/OoPl4rGR14+ttGmC
+    1mklLjmOXd40OTGHOy7eriNEhOYwNJanBPeDHSPyHnwXQB9DRApEoMgQiKjwXN+I9eqe0L6PQISwAcjuPvAAgrDdmft/a+gqcfinh10yLBoPR/9je23xHo
+    suopwOk8sRVRePkA0MZl/ywyDRBSHeyyagGglFmuHBGWNGu0mlokAAQkaOBDlSO6v//YegCbI+qRH7YCu6Tshn+9E4b48OfLWGfvo49gYvxCkEgEPR2kuj
+    oB0GjIf0SQVCPBli9ddLH+8itQWFEZvYfEEBNjo3jqoV8zZQLFqQDVp64rbXxo6GgJpbgqzL7Jkp5rg1bLetZaG1RFMxfx42x9HSj3C/VSMToC4PUKNyHK
+    m0trtRqkZbMp0O2NDQFqLxKKtoZ6vsg1ltvRFOweRQJAKSUAdofZr6DY8lnXaKv0n1hEIW0N7I+HAHUHDiBouFKRADidJzcDmJbNC7M4PUBGihdRSBs3fV
+    IEn/8B5SPA18PsU0hsBawAdLWexaQr8uVcsYh09AxuAQAKBYAQdhPmaMKPAKLXi87moNPWIjK4xsfR08mmm1MIkY8ATufxAkxj0CczL0eSCbyoB6inrbEB
+    VGQjlUJ0pgByadi9UoDeoEdqFhujb1u0BM5Te/Qw/veBn+CNPz4jecH+8LoTAdxxhqSQv6SQjiBK6bQKADDlEOpuu7Bqh1dmYpW2xgbcv/t6uCenoov958
+    5hz13/HqAu+64p0LCvpiZkfFuJDjDte9dnLZqCsnz45uvnXz4AfP5+4DMkpN8ZCTn8AyEEgNJ6A4DwN8BTCO8L6Gpphscd/tLrhUJTTQ3z2ZwaOO9WMgVQ
+    GrkAOBxjxZiBc4V4S8Dj8aCrlc96jT2aTrMCULC0Qraee3IS3W1c0E9ASBNwqlqwiwJKlTQSKdkFuSAC25VY1wPGRkbQ3c6+1Pyl5bJ1O5oa4eUyqigJHg
+    PwEVQARHFmBEAfZ4A1nV24Eet6QPOZU5LATkEAAZD5rrzxY0TRLyioABBCAu/PFmVsBayqwfu1Y42mU+zwH2dMQEaOfEq5jNncpDRLOJQVMGNn19gK2H8u
+    1mMCzWfYKTx/6VLJNOkjnBiAjxACMHOHF2XZ2R2+2psaJPNaLNGsUAEEpFMAiZ4AkBkTgGxuBJDVbGMEr9eD1nr2V51ftlS2rsfjQdfZFqaMgCiyAICQOk
+    Dkq32VkpWfC8ItvY7VaaC9sVESEQ00Asj5TMQQaWD+hHAEIYoZgMGJTzDCnMpmCceqJcDb/4JGg9xi+TMhZL4jaowbr1X6rBACQNRvoxEBEkWwMTYFgFcA
+    bfkFATOlZfwlLftqehXvqBFiCqAzKwCL2UEAgOZTyhVA3gRU6gL2EcoMjHy/dRVk2vkRQBrjjgWaa6UmYCD4KUBJEog/ocxA9TshRgBvCchluSx0+rvPYb
+    CfXaoeaASQzZ4SQqeBMdWDXSQE0hORpxFeBwBiTxFsOi39AeeXybuA5fInCRWjJwCUQrE2GQ0SkhORYmUPa461oBA//1tS02BaIr+RpJyONC4aoicAGs3M
+    CgAA2PJjOybQfIYdAfLLlXsAAbT/rUndFuZBBSApyd0EYEYzM2J9nQA/BQSKAAKyq6hUKYBASB1gtZsQKN9BKQpITMHGeklYdKEyMTYqSYQJNP8D0nWUam
+    IAPkLmBFJKP1DbaCTwI8DYyAj6z0W2O9h8ofnMGYnZW1AuLwBUFNHRxFoAIlUeA/ChQABI4EzEaYDXAYDYsQT4CKAhPh6ZuXbZut0d7cw+AEDopeByhBQA
+    r1erev/ZSEixmpBkYo8YiBU9gFcA7aVLIWjkUzLlvhOt3hv9ESA1tbyLEER+9JYKsuy8HhAblkDfOXY7+UAhYEB2H4VzancKBxQvDsVf1TYcCbxDKFY2ja
+    hcu+7834QQXHT1joB1peaxuhiAD0VbxBBCnqWU3hnOA8JBslCkPjYE4JpvfwfxxgScPvw5Nl21DdUbNwWsK50ClC0E4VEkACbTss8cjuMnAczI5j28KTg6
+    NISB3h5YgiyMWAgQQrBt983YtvvmoPUopWhvkmwGoXr+B1RsEUMpng3nAeEgFxNoq48NRVAJfV2dGBthA7U0zClAhQDQZwAo31c9AsypVhiT2OPvYkUPUI
+    KcWayj7ukVAKu1up0QEvamxGrJ4nIDFjePuoDMd9H/UmN3Tzhtqdop1OsVHkQYhxKEgzQ9bGELwJt7n8Pd1+7CL793G/pCeD4lWUBATYCqIVG1UaTVWnHK
+    4Tj+KoAvh/tApfDrBBbyFNBYcxKP/uS+858nJybws98/HbA+/13QMDyAPlTvFUwI/Tkw/dnCfHbQYH8/hhwD0/3YWeHIB/9gPneE2COpnd8OTlAfA/ChWg
+    BMpurDAJ4P94FK4X0BwMKNCfAxgCx74B35Bnp7MDzIHpghkhkcAQDA49HeAWBa8wWtGamIM7InbCzUmAC/EDRoFrCMOawh4ZmAQJgCMBUfIA+G+1AlEEKQ
+    abcxZQtRACYnJtDJLe0KngUs0YWGXqltC/tY9LDPDEpJ6XsYwLFw71dCLKwTOFtfB9HLulfspYEFQGoCkrAtACACASDkUg+l5GYA4Z/HHoJY2EeYX9cXZ0
+    xAdmFhwPrSdQDhD/9AhEe+WSzLjlOKeyNpIxi8IjjQ042RQXUnfc51SquXo3z1mvOfr/vOv0CjCWydS0ZBGl4MwEf4R1d/gcVS9ajTeXwjpYj6fsJyB0q0
+    NTZg6cpV0X7UrCFoNPjVM3tx4tBHMFmXwB4kB2DIMYDBATbkL8zmCOBDFCe/CyDqrro0WwZ0BvbwyIW4TkCj0WL5pouDvnxAPizuFXWzLwAWy+pBQshVhO
+    Bc6NrKIYKArLzYzA6SQ0YHGnm9ubk1kjajduyrybSsURTJlQAiO9uVI9bXCfgjsQAITiNCr2xUz/21WJYdB4RrAERtw3/+PIGFaAkoJRrrAHiifvCz2Vz5
+    LkCvR5TMQ34E6OvqxPjojK5anzPwXsBw1gHwTMvJ32Zz9SuiSC8DoDpLlSeb2z+QUhqTeoAvLc6fOTkC+LBaqw+JorgZiGyJeVp2JnR69pDoWNQDZC2ACE
+    1AIMrHwMnhcJzKAzzPA1gdbhv33/A9tDdeWDOXmWdHZu60b2I+pxjo6UELu3PIeHxDW9K+CNP0InYEhcJsLj9L6bsbHA7rLwjBvQhD6NJzshgB6DrbItkb
+    L9agQEukLx+YxinAH0Iu9VgsVfcB+CoAh9r7Y2V1sBpIlFLzZkQAfJjNVX+hVLMcwEtq7ssrCRwciVkooqIITfsUwGOxVLQCuMbpPPYlgDxKKcpC3VO1cR
+    Ve+h27LEGv1UIQpl2FmRNQAK5JNmpICHkxGm3PuAD4MJmq32lr+3BlYmLiPQDuAmAKVDcrL1tStmPTCuTbFvZKIR+O4VH8/tUDTBkVxKhs3zOjUwBPTs7G
+    cbO56udutyYHoHcCkM2HNiYlINmcwpQNDI/ORBfnBI4h6f+qndRGJSo2qwLgIy2tYsRsrn7E5aLFAL2LEGmMOyOPTQ9zDMWON9AhFfbul1taohJzmRMC4C
+    Mjo3rUbK5+2GSqKhdFsZJS/BeAbgDIzGWngYGR2BkBBnhhp4haTHxOCYA/VuvyGoul6j6TaTKHEHIFpeIB/+tOmWFxoeIcZreCASFR275v1pRApRCy2g3g
+    7Z2FOQkg2OIrHxmbgNvjgU475/+FiOnnRwAiLvwRgEcUBEbqKQAH/8tYgLg9HoyNTzBlhCo7EUwJ80YAjPrERgDMIUJy2vFCwzE0Js34EDRRmwLmjQDsq6
+    mZJACzi6JjeOFbAgPS/9Ebp0sIvnhQBfNGAACAcsrPQEyMABIBaFZyKrhS5pUGRSmtJcA23+dz/YOobV3Yu4i29XArokn05n9gngkAwAZAHMMj2H/w8Gz1
+    ZVaglEZ1B/d5NQUIVJjx7evnGoREzwkEzDMB0HjJYUQx43g+IkI8FM325pUATPm/6a1AdBegzBOcFOS+1+s7jkaz0f8HLMVNFEf83NgAAAAASUVORK5CYI
+    I=' type='image/x-png' />
+    <link rel='apple-touch-icon' href='data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAA
+    ABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAAcAAAAHABznhikwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAA
+    AKISURBVDiNfZJLTBNRFIb/e2cKlEJheJWW8hSQgpiAqAgLwcSERBOjUQMh0SVLE5e6N25M1MSFGxYsiMGFrwWyMSbGYlREKCC
+    BkoI0pNIOLXTK9DHT48Y2oBnv8t7vfCf/OVeAwbkGCI6GBmu3q2LgVLt9qqVC2qo0FflPhMPaEkAZjhsJ8vtdo229JfM5ZuHB+
+    VvHa/Mswr3WnpJ587nWsYOc8E9np9Pc0W5351rMzr6RlmYlFC9KJjTOwIpODzZKvk8B1WWTRuySOL72K5Y6JIhEPEdSYmrS2St
+    07WyoNrvLCkebxL+/WEf3cBPXUgTfTMjSc6O5PrgY2/dshj5kI4TDC/1ENJNm6MwvzUXH5Sp8nfCBc4a8whxwDnx+5k11DzUWF
+    pTlMp6DmmwEWfZUM0bviahY3VMx/XoahZUmKDtJyOt72I8kEd1OgHRwq93M516tB0OrypNBOfJDBABBSN8hYsW6psM96caFK7e
+    R1nW0DABEBCICYwyMMUYgah3ihW/Z+KPFWOqNCABE/CpAEE0iHHU1OHvxktFykIzHmXfBkyeVlgee+/0qD4dniwEqywBEumExA
+    PiWl7AT3EZ0b1cGAK4oauIgIJo4kvH4fwQ/UNvUjOhuOAAAvLq6RwWwkgFsNXb4fWuGAsYYdE2DqsS+AH9+ImMYzQBV9U78XF0
+    2FJTYKrGxuhIL+HzurCAaVR4DmAMAe50Tm2teQ0F+QQFW5mZlZlKXAYBlHoLBbw5RFF8COHl/5C6sUumhwnRa1/Skvk8AApsb0
+    afvPjoBQMwA5eWdW0QTZyKRo8NmkR62WdLSX+lFQLQCwJRXWcrciocQdl0HMHaz61hfQpb7jWLEE1p26L8BSy8HR/A9I4AAAAA
+    ASUVORK5CYII=' type='image/x-png' />
+    <link rel='apple-touch-icon-precomposed' sizes='128x128' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAA
+    BHNCSVQICAgIfAhkiAAAAA
+    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
+    I=' type='image/x-png' />
+
+    <!-- Android Meta Tags -->
+    <meta name='mobile-web-app-capable' content='yes'>
+    <link rel='shortcut icon' sizes='128x128' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAA
+    BHNCSVQICAgIfAhkiAAAAA
+    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
+    I=' type='image/x-png' />
+
+    <!-- jQuery  -->
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js'></script>
+
+    <!-- Bootstrap -->
+    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css'>
+    <script src='https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js'></script>
+
+    <!-- Colour Picker -->
+    <script type='text/javascript'
+        src='https://cdnjs.cloudflare.com/ajax/libs/tinyColorPicker/1.1.1/jqColorPicker.min.js'></script>
+
+    <!-- Chart.js -->
+    <script type='text/css' src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css'></script>
+    <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js'></script>
+
+    <!-- Cover Template CSS -->
+    <style>
+        a,
+        a:focus,
+        a:hover {
+            color: #fff;
+        }
+
+        .btn-secondary,
+        .btn-secondary:hover,
+        .btn-secondary:focus {
+            color: #333;
+            text-shadow: none;
+            /* Prevent inheritance from `body` */
+            background-color: #fff;
+            border: .05rem solid #fff;
+        }
+
+        html,
+        body {
+            height: 100%;
+            background-color: #333;
+            overflow: auto;
+        }
+
+        body {
+            display: -ms-flexbox;
+            display: flex;
+            color: #fff;
+            /* text-shadow: 0 .05rem .1rem rgba(0, 0, 0, .5); */
+            box-shadow: inset 0 0 5rem rgba(0, 0, 0, .5);
+        }
+
+        .card {
+            background-color: #FFF;
+            color: #000;
+        }
+
+        .cover-container {
+            max-width: 80em;
+        }
+
+        .masthead {
+            margin-bottom: 2rem;
+        }
+
+        .masthead-brand {
+            margin-bottom: 0;
+        }
+
+        .nav-masthead .nav-link {
+            padding: .25rem 0;
+            font-weight: 700;
+            color: rgba(255, 255, 255, .5);
+            background-color: transparent;
+            border-bottom: .25rem solid transparent;
+        }
+
+        .nav-masthead .nav-link:hover,
+        .nav-masthead .nav-link:focus {
+            border-bottom-color: rgba(255, 255, 255, .25);
+        }
+
+        .nav-masthead .nav-link+.nav-link {
+            margin-left: 1rem;
+        }
+
+        .nav-masthead .active {
+            color: #fff;
+            border-bottom-color: #fff;
+        }
+
+        @media (min-width: 48em) {
+            .masthead-brand {
+                float: left;
+            }
+
+            .nav-masthead {
+                float: right;
+            }
+        }
+
+        .cover {
+            padding: 0 1.5rem;
+        }
+
+        .cover .btn-lg {
+            padding: .75rem 1.25rem;
+            font-weight: 700;
+        }
+
+        .mastfoot {
+            color: rgba(255, 255, 255, .5);
+        }
+    </style>
+
+    <!-- Websockets -->
+    <script>
+        var websock;
+
+        function onStart() {
+            $('#currentModeLabel').html('WS Connecting...')
+            // websock = new WebSocket('ws://' + window.location.hostname + ':81/');
+            websock = new WebSocket('ws://192.168.0.212:81/');
+            websock.onopen = function (evt) {
+                console.log('websock opened');
+                $('#wsState').html('Open')
+            }
+            websock.onclose = function (evt) {
+                console.log('websock closed');
+                $('#wsState').html('Closed')
+                // Maybe set up a timer to keep trying to reconnect till window closed
+            }
+            websock.onerror = function (evt) {
+                console.log(evt);
+            }
+            websock.onmessage = function (evt) {
+                // console.log('Incoming Data is: ' + evt.data)
+                routeMessage(evt.data)
+            }
+        }
+
+        function routeMessage(jsonString) {
+            let jsonMessage = JSON.parse(jsonString);
+            // console.log(jsonMessage)
+
+            if ('State' in jsonMessage) {
+                // console.log('Found State Message')
+                handleStateMessage(jsonMessage.State)
+            }
+            if ('Colour' in jsonMessage) {
+                // console.log('Found Mode Message')
+                handleColourMessage(jsonMessage.Colour)
+            }
+            if ('Temperature' in jsonMessage) {
+                // console.log('Found Mode Message')
+                handleTemperatureMessage(jsonMessage.Temperature)
+            }
+            if ('Humidity' in jsonMessage) {
+                // console.log('Found Mode Message')
+                handleHumidityMessage(jsonMessage.Humidity)
+            }
+            if ('Moisture' in jsonMessage) {
+                // console.log('Found Mode Message')
+                handleMoistureMessage(jsonMessage.Moisture)
+            }
+        }
+
+        function handleStateMessage(jsonMessage) {
+            // console.log(jsonMessage)
+            if (typeof jsonMessage === 'boolean') {
+                if (jsonMessage) {
+                    $('#stateButton').val('ON')
+                    $('#stateLabel').html('Turn Off LED')
+                } else {
+                    $('#stateButton').val('OFF')
+                    $('#stateLabel').html('Turn On LED')
+                }
+            }
+        }
+
+        function handleColourMessage(jsonMessage) {
+            if (typeof jsonMessage === 'object') {
+                var newRed = 0
+                var newGreen = 0
+                var newBlue = 0
+
+                if (('Red' in jsonMessage)) {
+                    if (typeof jsonMessage.Red === 'number') {
+                        newRed = jsonMessage.Red
+                    }
+                }
+                if (('Green' in jsonMessage)) {
+                    if (typeof jsonMessage.Green === 'number') {
+                        newGreen = jsonMessage.Green
+                    }
+                }
+                if (('Blue' in jsonMessage)) {
+                    if (typeof jsonMessage.Blue === 'number') {
+                        newBlue = jsonMessage.Blue
+                    }
+                }
+
+                // Update button here 
+                $('#colourButton').css('background-color', 'rgb(' + newRed + ',' + newGreen + ',' + newBlue + ')')
+                $('#colourButton').css('color', (0.2126 * newRed + 0.7152 * newGreen + 0.0722 * newBlue > 40) ? '#222' : '#ddd')
+                $('#colourButton').val('rgb(' + newRed + ',' + newGreen + ',' + newBlue + ')')
+            }
+        }
+
+        function handleTemperatureMessage(jsonMessage) {
+            if (jsonMessage && typeof jsonMessage === 'object' && jsonMessage.constructor === Array) {
+                // Set the Label value to the latest
+                $('#tempLabel').html(parseFloat(Math.round(jsonMessage[0].y * 100) / 100).toFixed(1))
+
+                // Update the x axis range
+                temperatureScatter.options.scales.xAxes[0].ticks.max = jsonMessage[0].x
+                temperatureScatter.options.scales.xAxes[0].ticks.min = jsonMessage[jsonMessage.length - 1].x
+
+                // Update the y axis range
+                let minValue = jsonMessage[0].y
+                let maxValue = jsonMessage[0].y
+                jsonMessage.forEach((dataPoint) => {
+                    minValue = (dataPoint.y < minValue) ? dataPoint.y : minValue
+                    maxValue = (dataPoint.y > maxValue) ? dataPoint.y : maxValue
+                })
+                temperatureScatter.options.scales.yAxes[0].ticks.min = minValue - 3
+                temperatureScatter.options.scales.yAxes[0].ticks.max = maxValue + 3
+
+                // Update the chart data 
+                temperatureScatter.data.datasets.forEach((dataset) => {
+                    if (dataset.label == 'Temperature') {
+                        dataset.data = jsonMessage
+                        temperatureScatter.update()
+                    }
+                })
+            }
+        }
+
+        function handleHumidityMessage(jsonMessage) {
+            if (jsonMessage && typeof jsonMessage === 'object' && jsonMessage.constructor === Array) {
+                // Set the Label value to the latest
+                $('#humidityLabel').html(parseFloat(Math.round(jsonMessage[0].y * 100) / 100).toFixed(0))
+
+                // Update the x axis range
+                humidityScatter.options.scales.xAxes[0].ticks.max = jsonMessage[0].x
+                humidityScatter.options.scales.xAxes[0].ticks.min = jsonMessage[jsonMessage.length - 1].x
+
+                // Update the y axis range
+                let minValue = jsonMessage[0].y
+                let maxValue = jsonMessage[0].y
+                jsonMessage.forEach((dataPoint) => {
+                    minValue = (dataPoint.y < minValue) ? dataPoint.y : minValue
+                    maxValue = (dataPoint.y > maxValue) ? dataPoint.y : maxValue
+                })
+                humidityScatter.options.scales.yAxes[0].ticks.min = (minValue > 0) ? minValue - 3 : 0
+                humidityScatter.options.scales.yAxes[0].ticks.max = (maxValue < 100) ? maxValue + 3 : 100
+
+                // Update the chart
+                humidityScatter.data.datasets.forEach((dataset) => {
+                    if (dataset.label == 'Humidity') {
+                        dataset.data = jsonMessage
+                        humidityScatter.update()
+                    }
+                })
+            }
+        }
+
+        function handleMoistureMessage(jsonMessage) {
+            console.log(jsonMessage)
+            if (typeof jsonMessage === 'number' && isFinite(jsonMessage)) {
+                // Set the Label value to the latest
+                $('#moistureLabel').html(parseFloat(Math.round(jsonMessage * 100) / 100).toFixed(0))
+            }
+        }
+
+        function sendMessage(jsonMessage) {
+            // console.log('Sending: ' + JSON.stringify(jsonMessage))
+            if (websock != null && websock.readyState == 1) {
+                websock.send(JSON.stringify(jsonMessage));
+            } else {
+                alert('Websockets are currently closed!')
+                console.warn('Websockets are closed')
+            }
+        }
+    </script>
+
+</head>
+
+<body class='text-justify text-center' onload='javascript:onStart();'>
+    <div class='cover-container d-flex w-100 h-100 p-3 mx-auto flex-column'>
+        <header class='masthead mb-auto'>
+            <div class='inner'>
+                <h3 class='masthead-brand'>IoTerrium</h3>
+                <nav class='nav nav-masthead justify-content-center mb-3'>
+                    <a class='nav-link active' href='#'>Home</a>
+                    <a class='nav-link' href='https://github.com/thebigpotatoe/Iot-Terrarium'>Instructables</a>
+                    <a class='nav-link' href='https://github.com/thebigpotatoe/Iot-Terrarium'>GitHub</a>
+                </nav>
+            </div>
+        </header>
+
+        <main role='main' class='inner cover'>
+            <div class='row'>
+                <div class='col-lg-3'>
+                    <div id='stateButton' class='card mb-3'>
+                        <div class='card-body text-center'>
+                            <p class='card-text'><b id='stateLabel'>Turn On LED</b></p>
+                        </div>
+                    </div>
+                    <div id='colourButton' class='card mb-3'>
+                        <div class='card-body text-center'>
+                            <p class='card-text'><b id='colourLabel'>Choose Colour</b></p>
+                        </div>
+                    </div>
+                    <div class='card mb-3'>
+                        <div class='card-body text-center'>
+                            <p class='card-text'>Temperature is <a><b id='tempLabel'>-</b></a>&#8451</p>
+                        </div>
+                    </div>
+                    <div class='card mb-3'>
+                        <div class='card-body text-center'>
+                            <p class='card-text'>Humidity is <a><b id='humidityLabel'>-</b></a>%</p>
+                        </div>
+                    </div>
+                    <div class='card mb-3'>
+                        <div class='card-body text-center'>
+                            <p class='card-text'>Soil Moisture is <a><b id='moistureLabel'>-</b></a>%</p>
+                        </div>
+                    </div>
+                    <div class='card mb-3'>
+                        <div class='card-body text-center'>
+                            <p class='card-text'>Websockets are <a><b id='wsState'>closed</b></a></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class='col-lg-9 mb-3'>
+                    <div class='card-deck' style='height: 100%;'>
+                        <div class='card border-light p-3' style='background-color: transparent;'>
+                            <canvas id='temperatureChart' style='width:100%; height:100%;'></canvas>
+                        </div>
+                        <div class='card border-light p-3' style='background-color: transparent;'>
+                            <canvas id='humidityChart' style='width:100%; height:100%;'></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <script>
+                    var colourDebounce = Date.now()
+                    var lastMessage = ''
+                    let currentRed = 0
+                    let currentGreen = 0
+                    let currentBlue = 0
+
+                    $('#stateButton').click(function () {
+                        var newState = $('#stateButton').val() == 'ON' ? 'OFF' : 'ON'
+                        onStateButtonEvent(newState)
+                    });
+
+                    function onStateButtonEvent(currentState) {
+                        if (currentState != $('#stateButton').val()) {
+                            if (currentState === 'OFF') {
+                                msgValue = false
+                                $('#stateButton').val('OFF')
+                                $('#stateLabel').html('Turn On LED')
+                            } else if (currentState === 'ON') {
+                                msgValue = true
+                                $('#stateButton').val('ON')
+                                $('#stateLabel').html('Turn Off LED')
+                            }
+
+                            msg = {
+                                'State': msgValue
+                            }
+
+                            sendMessage(msg)
+                        }
+                    }
+
+                    $('#colourButton').colorPicker({
+                        customBG: '#222',
+                        margin: '4px -2px 0',
+                        doRender: 'div div',
+                        preventFocus: true,
+                        animationSpeed: 150,
+                        forceAlpha: false,
+
+                        buildCallback: function ($elm) {
+                            this.$colorPatch = $elm.prepend('<div class=\\\'cp-disp\\\'>').find('.cp-disp');
+                        },
+
+                        cssAddon: '.cp-color-picker {width:80%; height: 50%}' +
+                            '@media screen and (min-width: 992px) {.cp-color-picker {width:22%; height: 50%}}' +
+                            '@media screen and (min-width: 1275px) {.cp-color-picker {width:280px; height: 50%}}' +
+                            '.cp-disp {padding:5px; margin-bottom:4px; font-size:95%; height:10%; line-height:20px}' +
+                            '.cp-xy-slider {height:87%; width:77%;}' +
+                            '.cp-z-slider {height:87%; width:20%;}' +
+                            '.cp-xy-cursor {width:16px; height:16px; border-width:2px; margin:-8px}' +
+                            '.cp-z-cursor {border-width:8px; margin-top:-8px;}' +
+                            '.cp-alpha {height:0px;}',
+
+                        renderCallback: function ($elm, toggled) {
+                            var colors = this.color.colors;
+                            this.$colorPatch.css({
+                                backgroundColor: '#' + colors.HEX,
+                                color: colors.RGBLuminance > 0.22 ? '#222' : '#ddd'
+                            }).text(this.color.toString($elm._colorMode)); // $elm.val();   
+
+                            onColourButtonEvent(Math.round(colors.rgb.r * 255), Math.round(colors.rgb.g * 255), Math.round(colors.rgb.b * 255))
+                        }
+                    })
+
+                    function onColourButtonEvent(red, green, blue) {
+                        if (currentRed != red || currentGreen != green || currentBlue != blue) {
+                            currentRed = red
+                            currentGreen = green
+                            currentBlue = blue
+                            let state = (red === 0 && green === 0 && blue === 0) ? false : true
+
+                            msg = {
+                                'State': state,
+                                'Colour': {
+                                    'Red': red,
+                                    'Green': green,
+                                    'Blue': blue
+                                }
+                            }
+
+                            if (Date.now() - colourDebounce > 50 && lastMessage !== msg) {
+                                lastMessage = msg
+                                colourDebounce = Date.now()
+                                sendMessage(msg)
+                            }
+                        }
+                    }
+                </script>
+
+                <script>
+                    Chart.defaults.global.defaultFontColor = '#FFF'
+                    Chart.defaults.global.animation.easing = 'easeInOutQuint'
+                    Chart.defaults.global.animation.duration = 0
+
+                    var temperatureChartElement = document.getElementById('temperatureChart');
+                    var temperatureScatter = new Chart(temperatureChartElement, {
+                        type: 'scatter',
+                        data: {
+                            datasets: [{
+                                label: 'Temperature',
+                                lineTension: 0.5,
+                                borderColor: '#fff',
+                                showLine: true,
+                                borderWidth: 2.5
+                            }]
+                        },
+                        options: {
+                            responsive: false,
+                            title: {
+                                display: true,
+                                text: 'Temperature'
+                            },
+                            legend: {
+                                display: false
+                            },
+                            tooltips: {
+                                mode: 'label',
+                            },
+                            hover: {
+                                mode: 'nearest',
+                                intersect: true
+                            },
+                            elements: {
+                                point: {
+                                    radius: 0
+                                }
+                            },
+                            scales: {
+                                xAxes: [{
+                                    display: true,
+                                    gridLines: {
+                                        display: true,
+                                        color: '#666'
+                                    },
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: 'Time'
+                                    },
+                                    ticks: {
+                                        maxTicksLimit: 10,
+                                        callback: function (value, index, values) {
+                                            var now = new Date()
+                                            var date = new Date(value * 1000 + now.getTimezoneOffset() * 60000);
+                                            var hours = date.getHours();
+                                            var minutes = '0' + date.getMinutes();
+                                            var seconds = '0' + date.getSeconds();
+                                            var formattedTime = hours + ':' + minutes.substr(-2);
+                                            return formattedTime;
+                                        }
+                                    },
+                                    afterTickToLabelConversion: function (scaleInstance) {
+                                        scaleInstance.ticks[0] = null;
+                                        scaleInstance.ticks[scaleInstance.ticks.length - 1] = null;
+                                        scaleInstance.ticksAsNumbers[0] = null;
+                                        scaleInstance.ticksAsNumbers[scaleInstance.ticksAsNumbers.length - 1] = null;
+                                    }
+                                }],
+                                yAxes: [{
+                                    display: true,
+                                    gridLines: {
+                                        display: false,
+                                        color: '#666'
+                                    },
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: ('Temperature (' + String.fromCharCode(8451) + ')')
+                                    },
+                                    afterTickToLabelConversion: function (scaleInstance) {
+                                        scaleInstance.ticks[0] = null;
+                                        scaleInstance.ticks[scaleInstance.ticks.length - 1] = null;
+                                        scaleInstance.ticksAsNumbers[0] = null;
+                                        scaleInstance.ticksAsNumbers[scaleInstance.ticksAsNumbers.length - 1] = null;
+                                    }
+                                }]
+                            }
+                        }
+                    });
+
+                    var humidityChartElement = document.getElementById('humidityChart');
+                    var humidityScatter = new Chart(humidityChartElement, {
+                        type: 'scatter',
+                        data: {
+                            datasets: [{
+                                label: 'Humidity',
+                                lineTension: 0.5,
+                                borderColor: '#fff',
+                                showLine: true,
+                                borderWidth: 2.5
+                            }]
+                        },
+                        options: {
+                            responsive: false,
+                            title: {
+                                display: true,
+                                text: 'Humidity'
+                            },
+                            legend: {
+                                display: false
+                            },
+                            tooltips: {
+                                mode: 'label',
+                            },
+                            hover: {
+                                mode: 'nearest',
+                                intersect: true
+                            },
+                            elements: {
+                                point: {
+                                    radius: 0
+                                }
+                            },
+                            scales: {
+                                xAxes: [{
+                                    display: true,
+                                    gridLines: {
+                                        display: true,
+                                        color: '#666'
+                                    },
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: 'Time'
+                                    },
+                                    ticks: {
+                                        maxTicksLimit: 10,
+                                        callback: function (value, index, values) {
+                                            var now = new Date()
+                                            var date = new Date(value * 1000 + now
+                                                .getTimezoneOffset() * 60000);
+                                            var hours = date.getHours();
+                                            var minutes = '0' + date.getMinutes();
+                                            var seconds = '0' + date.getSeconds();
+                                            var formattedTime = hours + ':' + minutes.substr(-2);
+                                            return formattedTime;
+                                        }
+                                    },
+                                    afterTickToLabelConversion: function (scaleInstance) {
+                                        scaleInstance.ticks[0] = null;
+                                        scaleInstance.ticks[scaleInstance.ticks.length - 1] = null;
+                                        scaleInstance.ticksAsNumbers[0] = null;
+                                        scaleInstance.ticksAsNumbers[scaleInstance.ticksAsNumbers.length - 1] = null;
+                                    }
+                                }],
+                                yAxes: [{
+                                    display: true,
+                                    gridLines: {
+                                        display: false,
+                                        color: '#666'
+                                    },
+                                    scaleLabel: {
+                                        display: true,
+                                        labelString: 'Humidity (%)'
+                                    },
+                                    afterTickToLabelConversion: function (scaleInstance) {
+                                        scaleInstance.ticks[0] = null;
+                                        scaleInstance.ticks[scaleInstance.ticks.length - 1] = null;
+                                        scaleInstance.ticksAsNumbers[0] = null;
+                                        scaleInstance.ticksAsNumbers[scaleInstance.ticksAsNumbers.length - 1] = null;
+                                    }
+                                }]
+                            }
+                        }
+                    });
+
+                </script>
+
+            </div>
+        </main>
+
+        <footer class='mastfoot mt-auto'>
+            <div class='inner'>
+                <p>An <a href='https://getbootstrap.com/'>Instructable</a> project by <a
+                        href='https://www.instructables.com/member/thebigpotatoe/'>Thebigpotatoe</a>
+                    | Cover template for <a href='https://getbootstrap.com/'>Bootstrap</a>, by <a
+                        href='https://twitter.com/mdo'>@mdo</a>
+                    | Icons made by <a href='https://www.flaticon.com/authors/darius-dan' title='Darius Dan'>Darius
+                        Dan</a> from <a href='https://www.flaticon.com/' title='Flaticon'>flaticon</a></p>
+            </div>
+        </footer>
+    </div>
+</body>
