@@ -38,7 +38,7 @@ You may update the sketch on the ESP to a new firmware using the inbuilt webhook
 
 ## Website Features
 
-![IoT-Terrarium](Images/Webpage.jpg)
+![IoT-Terrarium](Images/Webpage.JPG)
 This project comes with its own inbuilt website built in Bootstrap 4 to read the sensor data and control the LED. The website is accessible either via your home network if connected, or the ESP's wireless access point. If you connect your ESP8266 through your home Wi-Fi network, this will be available at the IP address of the device, or at the mDNS name which defaults to http://IoT-Terrarium.local/update
 
 If you are connected to the ESP8266 via its access point, the webpage should be sent via a captive DNS. This is automatic on Windows and Apple products, but will require clicking "sign into network" on Android phones. It should be noted that mDNS does not work in this mode, and the default IP address is http://192.168.4.1. Please visit [this link](https://arduinojson.org/) first to cache the important files in your browser first.
