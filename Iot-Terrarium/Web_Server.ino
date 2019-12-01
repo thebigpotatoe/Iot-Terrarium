@@ -611,7 +611,7 @@ void servePage() {
   restServer.sendContent_P(PSTR("                <h3 class='masthead-brand'>IoTerrium</h3>\n"));
   restServer.sendContent_P(PSTR("                <nav class='nav nav-masthead justify-content-center mb-3'>\n"));
   restServer.sendContent_P(PSTR("                    <a class='nav-link active' href='#'>Home</a>\n"));
-  restServer.sendContent_P(PSTR("                    <a class='nav-link' href='https://github.com/thebigpotatoe/Iot-Terrarium'>Instructables</a>\n"));
+  restServer.sendContent_P(PSTR("                    <a class='nav-link' href='https://www.instructables.com/id/IoT-Terrarium/'>Instructables</a>\n"));
   restServer.sendContent_P(PSTR("                    <a class='nav-link' href='https://github.com/thebigpotatoe/Iot-Terrarium'>GitHub</a>\n"));
   restServer.sendContent_P(PSTR("                </nav>\n"));
   restServer.sendContent_P(PSTR("            </div>\n"));
@@ -934,7 +934,7 @@ void servePage() {
   restServer.sendContent_P(PSTR("\n"));
   restServer.sendContent_P(PSTR("        <footer class='mastfoot mt-auto'>\n"));
   restServer.sendContent_P(PSTR("            <div class='inner'>\n"));
-  restServer.sendContent_P(PSTR("                <p>An <a href='https://getbootstrap.com/'>Instructable</a> project by <a\n"));
+  restServer.sendContent_P(PSTR("                <p>An <a href='https://www.instructables.com/id/IoT-Terrarium/'>Instructable</a> project by <a\n"));
   restServer.sendContent_P(PSTR("                        href='https://www.instructables.com/member/thebigpotatoe/'>Thebigpotatoe</a>\n"));
   restServer.sendContent_P(PSTR("                    | Cover template for <a href='https://getbootstrap.com/'>Bootstrap</a>, by <a\n"));
   restServer.sendContent_P(PSTR("                        href='https://twitter.com/mdo'>@mdo</a>\n"));
